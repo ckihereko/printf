@@ -32,7 +32,7 @@ int _printf(const char *format, ...)
 			i = va_arg(conspec, int);
 			_putchar(i, &k);
 			break;
-		case 's':
+		case 's':.
 			s = va_arg(conspec, char *);
 			_puts(s, &k);
 			break;
