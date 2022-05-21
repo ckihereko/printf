@@ -1,71 +1,50 @@
-#include "main.h"
-/**
- * _printf - is a function that formats and prints data
- * @format: format of data
- * Return: number of characters printed
- */
-int _printf(const char *format, ...)
-{
-	const char *p;
-	unsigned int i;
-	int j;
-	int k = 0;
-	va_list conspec;
-	char *s;
+#include "holberton.h"
 
-	if (!format)
-	{
+/**
+ * _printf - prints formatted data to stdout
+ * @format: string that contains the format to print
+ * Return: number of characters written
+ */
+int _printf(char *format, ...)
+{
+	int written = 0, (*structype)(char *, va_list);
+	char q[3];
+	va_list pa;
+
+	if (format == NULL)
 		return (-1);
-	}
-	va_start(conspec, format);
-	for (p = format; *p != '\0'; p++)
+	q[2] = '\0';
+	va_start(pa, format);
+	_putchar(-1);
+	while (format[0])
 	{
-		if (*p != '%')
+		if (format[0] == '%')
 		{
-			_putchar(*p, &k);
-			continue;
+			structype = driver(format);
+			if (structype)
+			{
+				q[0] = '%';
+				q[1] = format[1];
+				written += structype(q, pa);
+			}
+			else if (format[1] != '\0')
+			{
+				written += _putchar('%');
+				written += _putchar(format[1]);
+			}
+			else
+			{
+				written += _putchar('%');
+				break;
+			}
+			format += 2;
 		}
-		p++;
-		switch (*p)
+		else
 		{
-		case 'c':
-			i = va_arg(conspec, int);
-			_putchar(i, &k);
-			break;
-		case 's':
-			s = va_arg(conspec, char *);
-			_puts(s, &k);
-			break;
-		case '%':
-			_putchar('%', &k);
-			break;
-		case 'd':
-			j = va_arg(conspec, int);
-			_print_number(j, &k);
-			break;
-		case 'i':
-			j = va_arg(conspec, int);
-			_print_number(j, &k);
-			break;
-		case 'r':
-			s = va_arg(conspec, char *);
-			_rev_string(s, &k);
-			break;
-		case 'b':
-			i = va_arg(conspec, int);
-			_print_binary(i, &k);
-			break;
-		case 'R':
-			s = va_arg(conspec, char *);
-			_rot13(s, &k);
-			break;
-		case '\0':
-			return (-1);
-		default:
-			_putchar('%', &k);
-			_putchar(*p, &k);
+			written += _putchar(format[0]);
+			format++;
 		}
 	}
-	va_end(conspec);
-	return (k);
+	_putchar(-2);
+	return (written);
 }
