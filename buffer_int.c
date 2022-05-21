@@ -32,7 +32,7 @@ buffer *buf_custom(size_t size_uint)
 	buf = malloc(sizeof(buffer));
 	if (!buf)
 		return (NULL);
-	buf->index = 0;.
+	buf->index = 0;
 	buf->size = size_uint;
 	buf->overflow = 0;
 	buf->str = malloc(sizeof(char) * buf->size + 1);
