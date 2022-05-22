@@ -5,7 +5,7 @@
 /*PRINTING CHARACTERS*/
 /**
  * print_char - prints character to output
- * @arg
+ * @arg: character arguments
  * Return: 1 on succes
  */
 int print_char(va_list arg)
@@ -17,7 +17,7 @@ int print_char(va_list arg)
 /*PRINTING STRINGS*/
 /**
  * print_str - prints a string
- *
+ * @arg: string argument
  * Return: number of chacters printed
  */
 int print_str(va_list arg)
@@ -35,7 +35,7 @@ int print_str(va_list arg)
 }
 /*PRINTING integers*/
 /**
- * print_ int - prints integer
+ * print_int - prints integer
  * @arg: integer argument
  * Return: 0
  */
@@ -46,10 +46,10 @@ int print_int(va_list arg)
 
 	for (i = 0; digit / a > 9; i++, a *= 10)
 	;
-	for (; divisor >= 1; n %= a, a /= 10, charp++)
+	for (; a >= 1; digit %= a, a /= 10, charp++)
 	{
 		result = digit / a;
-		putchar('0' + result);	
+		_putchar('0' + result);
 	}
 	return (charp);
 
