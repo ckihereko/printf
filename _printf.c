@@ -1,5 +1,5 @@
 #include <stdarg.h>
-#include <stdio.h>
+#include <stdlib.h>
 #include <stdio.h>
 # include "main.h"
 
@@ -18,15 +18,15 @@ int printSpecifier(char spec, va_list arg)
 	specifierStruct sp[] = {
 		{"c", print_char},
 		{"s", print_str},
-		{"d", print_int};
-		{"i", print_int};
+		{"d", print_int},
+		{"i", print_int},
 		{NULL, NULL}
 	};
 
-	for (i = 0; sp[i].indentifier != NULL; i++)
+	for (i = 0; sp[i].a != NULL; i++)
 	{
 
-		if (sp[i].a[0] == sp)
+		if (sp[i].a[0] == spec)
 		{
 			return (sp[i].print(arg));
 		}

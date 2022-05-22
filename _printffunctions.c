@@ -23,7 +23,7 @@ int print_char(va_list arg)
 int print_str(va_list arg)
 {
 	int count;
-	char *str = va_arg(s, char *);
+	char *str = va_arg(arg, char *);
 
 	if (str == NULL)
 		str = "(null)";
@@ -44,6 +44,12 @@ int print_int(va_list arg)
 	int digit = va_arg(arg, int);
 	unsigned int a = 1, i, result, charp = 0;
 
+	if (digit < 0)
+	{
+		_putchar('-');
+		charp++;
+		digit = digit * (-1);
+	}
 	for (i = 0; digit / a > 9; i++, a *= 10)
 	;
 	for (; a >= 1; digit %= a, a /= 10, charp++)
