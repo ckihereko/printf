@@ -14,8 +14,9 @@
 
 typedef struct spstructure
 {
-	int (*print)(va_list);
 	char *a;
+	int (*print)(va_list);
+
 
 
 } specifierStruct;

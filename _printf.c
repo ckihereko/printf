@@ -9,10 +9,9 @@
  * @arg: the arguments which are specifers
  * Return: number of charcters printed
  */
-
 int printSpecifier(char spec, va_list arg)
 {
-	int i;
+	unsigned int i;
 
 
 	specifierStruct sp[] = {
