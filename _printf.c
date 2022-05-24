@@ -1,82 +1,85 @@
-#include "holberton.h"
+#include <stdarg.h>
 #include <stdlib.h>
+#include <stdio.h>
+# include "main.h"
 
 /**
- * check_for_specifiers - checks if there is a valid format specifier
- * @format: possible format specifier
- *
- * Return: pointer to valid function or NULL
+ * printSpecifier - prints the specifiers c,d ,i
+ * @spec: argument to the function is the specifier
+ * @arg: the arguments which are specifers
+ * Return: number of charcters printed
  */
-static int (*check_for_specifiers(const char *format))(va_list)
+int printSpecifier(char spec, va_list arg)
 {
 	unsigned int i;
-	print_t p[] = {
-		{"c", print_c},
-		{"s", print_s},
-		{"i", print_i},
-		{"d", print_d},
-		{"u", print_u},
-		{"b", print_b},
-		{"o", print_o},
-		{"x", print_x},
-		{"X", print_X},
-		{"p", print_p},
-		{"S", print_S},
-		{"r", print_r},
-		{"R", print_R},
+
+
+	specifierStruct sp[] = {
+		{"c", print_char},
+		{"s", print_str},
+		{"d", print_int},
+		{"i", print_int},
 		{NULL, NULL}
 	};
 
-	for (i = 0; p[i].t != NULL; i++)
+	for (i = 0; sp[i].a != NULL; i++)
 	{
-		if (*(p[i].t) == *format)
+
+		if (sp[i].a[0] == spec)
 		{
-			break;
+			return (sp[i].print(arg));
 		}
+
 	}
-	return (p[i].f);
+	return (0);
 }
 
 /**
  * _printf - prints anything
- * @format: list of argument types passed to the function
- *
+ * @format: arguments passed
  * Return: number of characters printed
+ * (excluding the null byte used to end output to strings)
  */
 int _printf(const char *format, ...)
 {
-	unsigned int i = 0, count = 0;
-	va_list valist;
-	int (*f)(va_list);
+	unsigned int j;
+	int count = 0;
+	int specifierPrinted = 0;
 
+	va_list arg;
+	/*start of  iterations in the variadic function arguments*/
+	va_start(arg, format);
 	if (format == NULL)
 		return (-1);
-	va_start(valist, format);
-	while (format[i])
+	for (j = 0; format[j] != '\0'; j++)
 	{
-		for (; format[i] != '%' && format[i]; i++)
+		if (format[j] != '%')
 		{
-			_putchar(format[i]);
+			_putchar(format[j]);
 			count++;
-		}
-		if (!format[i])
-			return (count);
-		f = check_for_specifiers(&format[i + 1]);
-		if (f != NULL)
-		{
-			count += f(valist);
-			i += 2;
 			continue;
 		}
-		if (!format[i + 1])
+		if (format[j + 1] == '%')
+		{
+			_putchar('%');
+			count++;
+			continue;
+		}
+		if (format[j + 1] == '\0')
 			return (-1);
-		_putchar(format[i]);
-		count++;
-		if (format[i + 1] == '%')
-			i += 2;
-		else
-			i++;
+		specifierPrinted = printSpecifier(format[j + 1], arg);
+		if (specifierPrinted == 0)
+		{
+			_putchar('%');
+			count++;
+		}
+		if (specifierPrinted > 0)
+		{
+			count = count + specifierPrinted;
+		}
+		if (specifierPrinted == -1 || specifierPrinted != 0)
+			count++;
 	}
-	va_end(valist);
+	va_end(arg);
 	return (count);
 }
