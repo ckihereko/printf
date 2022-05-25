@@ -36,40 +36,27 @@ int print_str(va_list arg)
 /*PRINTING integers*/
 /**
  * print_int - prints integer
- * @d: integer argument
+ * @arg: integer argument
  * Return: 0
  */
-
-int print_int(va_list d)
+int print_int(va_list arg)
 {
-	int a[10];
-	int digit, i, sum, charprinted, n;
+	int digit = va_arg(arg, int);
+	unsigned int a = 1, i, result, charp = 0;
 
-	digit = va_arg(d, int);
-	charprinted = 0;
-	n = 1000000000;
-	a[0] = digit / n;
-	for (i = 1; i < 10; i++)
-	{
-		n /= 10;
-		a[i] = (digit / n) % 10;
-	}
-	if (n < 0)
+	if (digit < 0)
 	{
 		_putchar('-');
-		charprinted++;
-		for (i = 0; i < 10; i++)
-			a[i] *= -1;
+		charp++;
+		digit = digit * (-1);
 	}
-	for (j = 0, sum = 0; j < 10; j++)
+	for (i = 0; digit / a > 9; i++, a *= 10)
+	;
+	for (; a >= 1; digit %= a, a /= 10, charp++)
 	{
-
-		sum += a[i];
-		if (sum != 0 || i == 9)
-		{
-			_putchar('0' + a[i]);
-			charprinted;
-		}
+		result = digit / a;
+		_putchar('0' + result);
 	}
-	return (charprinted);
+	return (charp);
+
 }
